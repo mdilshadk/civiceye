@@ -1,7 +1,8 @@
 import register from "../schemas/register.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import complaints from "../schemas/complaint.js";
+import complaints from "../schemas/complaint.js"; 
+import feedback from "../schemas/feedback.js";
 
 
 const reg=async(req,res)=>{
@@ -85,4 +86,82 @@ const regcomplaint=async(req,res)=>{
     
 }
 
-export{reg,login,regcomplaint}
+const viewcomp=async(req,res)=>{
+    try{
+        const userId=req.params.id
+    const response=await complaints.find({userid:userId})
+    res.json(response)
+    }
+     catch(error){
+        res.status(500).json({message:"somthing error"})
+    }
+
+}
+
+const admincomp=async(req,res)=>{
+    try{
+        const complaintdetail=await complaints.find()
+        const responsedata=[]
+
+        for(let x of complaintdetail){
+            let response=await register.findById(x.userId);
+            responsedata.push({
+                complaint: x,
+                user:response
+
+            })
+        }
+        res.json(responsedata)
+        
+    }
+    catch(error){
+        res.status(500).json({message:"somthing error"})
+    }
+}
+
+const profilev=async(req,res)=>{
+    try{
+        const userId = req.params.userid;
+        const response = await register.findById(userId);
+        res.json(response);
+    }
+    catch(error){
+        res.status(500).json({message:"somthing error"})
+    }
+    
+}
+
+const editp=async(req,res)=>{
+    try{
+        const userid = req.params.userId;
+        const response=await register.findByIdAndUpdate(userid,req.body);
+        res.json(response)
+
+    }
+    catch(error){
+        res.status(500).json({message:"somthing error"})
+    }
+}
+
+const users =async(req,res)=>{
+    try{
+        const users=await register.find();
+        res.json(users);
+    }
+    catch(error){
+        res.status(500).json({message:"somthing error"})
+    }
+}
+
+const feedb=async(req,res)=>{
+    const{feed,userid}=req.body;
+
+    const newfeed=new feedback({
+        feed,userid
+    });
+    const sfeed=await newfeed.save();
+    res.json(sfeed)
+}
+
+
+export{reg,login,regcomplaint,viewcomp,admincomp,profilev,editp,users,feedb}

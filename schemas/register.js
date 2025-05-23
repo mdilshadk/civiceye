@@ -22,6 +22,18 @@ let regschema=new mongoose.Schema({
     },
     usertype:{
         type:String
+    },
+    state:{
+        type:String
+    },
+    address:{
+        type:String
+    },
+    idproof:{
+        type:String
+    },
+    proofno:{
+        type:String
     }
 })
 const register=mongoose.model("register",regschema);

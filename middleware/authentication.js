@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 const verifytoken=(req,res,next)=>{
     try{
         const authheader=req.headers.authorization;
-        console.log("Auth header : ",authheader);
 
         if(!authheader){
             return res.status(401).json({message:"authorization token is missing"})
