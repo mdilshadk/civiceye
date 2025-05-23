@@ -1,65 +1,77 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 const Complaints = () => {
+
+    const[data,setdata]=useState([])
+    
+    const token=localStorage.getItem("token")
+    
+    const adminview=async()=>{
+        let response=await axios.get("http://localhost:5000/auth/admincomp",{
+            headers:{Authorization:`Bearer ${token}`}
+        })
+        setdata(response.data)
+    }
+    console.log(data);
+    
+    useEffect(()=>{
+        adminview();
+      },[])
   return (
     <div>
-      <div className='flex justify-between'>
-        <div>
-          <button>sort by date</button>
-          <button>sort by type</button>
-        </div>
-        <button>download</button>
-      </div>
-      
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
-        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+      <div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-black dark:text-black mt-10">
+        <thead class="text-xs text-black uppercase bg-gray-50  dark:text-black">
             <tr>
-                <th scope="col" class="px-6 py-3 bg-gray-50 text-black ">
-                    Product name
+                <th scope="col" class="px-6 py-3">
+                    Date & Time
                 </th>
-                <th scope="col" class="px-6 py-3 text-black">
-                    Color
+                <th scope="col" class="px-6 py-3">
+                    Description
                 </th>
-                <th scope="col" class="px-6 py-3 bg-gray-50 text-black">
-                    Category
+                <th scope="col" class="px-6 py-3">
+                    Uploder
                 </th>
-                <th scope="col" class="px-6 py-3 text-black">
-                    Price
+                <th scope="col" class="px-6 py-3">
+                    type
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Submissions
                 </th>
             </tr>
         </thead>
-        <tbody>
-            <tr class="border-b border-gray-200 dark:border-gray-700 text-black">
-                <th scope="row" class="px-6 py-4 font-medium   ">
-                    Apple MacBook Pro 17"
+         {
+            data.map((item,index)=>(
+              <tbody key={index}>
+         
+            <tr class="  dark:border-gray-700 border-gray-200">
+                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">
+                    {item.complaint.createdAt}
                 </th>
                 <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4 bg-gray-50 ">
-                    Laptop
+                    {item.complaint.description}
                 </td>
                 <td class="px-6 py-4">
-                    $2999
-                </td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium ">
-                    Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4 bg-gray-50 ">
-                    Laptop PC
+                    {item.user.name}
                 </td>
                 <td class="px-6 py-4">
-                    $1999
+                    {item.complaint.complainttype}
+                </td>
+                <td class="px-6 py-4">
+                    <div className='flex gap-3'>
+                    <button>Reject</button>
+                    
+                    <button>resolve</button>
+                    </div>
                 </td>
             </tr>
             
+            
         </tbody>
+            ))
+          }
+        
     </table>
 </div>
 

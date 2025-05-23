@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Sidebar from '../pages/Sidebar'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import Overview from './Overview'
 import Complaints from './Complaints'
 import Userman from './Userman'
 import Reports from './Reports'
 const Admin = () => {
+
+  
+  
+  
+
+  
   return (
     <div className='flex gap-5'>
         <Sidebar></Sidebar>
