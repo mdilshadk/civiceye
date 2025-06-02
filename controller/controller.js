@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import complaints from "../schemas/complaint.js"; 
 import feedback from "../schemas/feedback.js";
+import moment from "moment";
+
 
 
 const reg=async(req,res)=>{
@@ -88,8 +90,8 @@ const regcomplaint=async(req,res)=>{
 
 const viewcomp=async(req,res)=>{
     try{
-        const userId=req.params.id
-    const response=await complaints.find({userid:userId})
+        const userid=req.params.userId
+    const response=await complaints.find({userId:userid})
     res.json(response)
     }
      catch(error){
@@ -152,9 +154,25 @@ const users =async(req,res)=>{
         res.status(500).json({message:"somthing error"})
     }
 }
+const resolve=async(req,res)=>{
+    try{
+        const complaintId = req.params.userId;
+        const { status} = req.body;
+
+        const complaint=await complaints.findByIdAndUpdate(complaintId,
+            { status: status },
+            { new: true })
+        res.json(complaint)
+    }
+    catch(error){
+        res.status(500).json({message:"somthing error"})
+    }
+}
+
+
 
 const feedb=async(req,res)=>{
-    const{feed,userid}=req.body;
+    const { feed ,userid} = req.body;
 
     const newfeed=new feedback({
         feed,userid
@@ -164,4 +182,81 @@ const feedb=async(req,res)=>{
 }
 
 
-export{reg,login,regcomplaint,viewcomp,admincomp,profilev,editp,users,feedb}
+const compcounts = async (req, res) => {
+  try {
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    const thisMonth = await complaints.countDocuments({
+      createdAt: { $gte: firstDay, $lte: lastDay }
+    });
+
+    const verified = await complaints.countDocuments({ status: "resolved" });
+    const pending = await complaints.countDocuments({ status: "pending" });
+    const rejected = await complaints.countDocuments({ status: "rejected" });
+
+    res.json({
+      thisMonth,
+      verified,
+      pending,
+      rejected
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+const feedview=async(req,res)=>{
+    const feedbacks=await feedback.find()
+        const responsedata=[]
+
+        for(let x of feedbacks){
+            let response=await register.findById(x.userid);
+            responsedata.push({
+                feedbacks: x,
+                user:response
+
+            })
+        }
+        res.json(responsedata)
+}
+
+
+const overviewd = async (req, res) => {
+  try {
+    const startOfMonth = moment().startOf("month").toDate();
+    const endOfMonth = moment().endOf("month").toDate();
+
+    const monthlyCount = await complaints.countDocuments({
+      createdAt: { $gte: startOfMonth, $lte: endOfMonth },
+    });
+
+    const verifiedCount = await complaints.countDocuments({ status: "resolved" });
+    const pendingCount = await complaints.countDocuments({ status: "pending" });
+    const rejectedCount = await complaints.countDocuments({ status: "rejected" });
+
+    const locationData = await complaints.aggregate([
+      {
+        $group: {
+          _id: "$location", 
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      month: monthlyCount,
+      verified: verifiedCount,
+      pending: pendingCount,
+      rejected: rejectedCount,
+      locations: locationData,
+    });
+  }  catch (err) {
+    res.status(500).json({ error: "Failed to fetch complaint stats" });
+  }
+};
+
+
+
+export{reg,login,regcomplaint,viewcomp,admincomp,profilev,editp,users,resolve,feedb,compcounts,feedview,overviewd}
