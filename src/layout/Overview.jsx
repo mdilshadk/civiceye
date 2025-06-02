@@ -1,38 +1,74 @@
-import React from "react";
-import {Bar } from 'react-chartjs-2';
-
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
-
-
+import React, { PureComponent, useEffect, useState } from 'react'
+import { FaCalendarAlt } from "react-icons/fa";
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
+import { LuClock } from "react-icons/lu";
+import { CgPlayListRemove } from "react-icons/cg";
 
 import {
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-} from "chart.js";
+ BarChart,
+  Bar,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts';
+import axios from 'axios';
 
-// Register required Chart.js components
-ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
-// Sample data
-const data = {
-  labels: ["January", "February", "March", "April", "May"],
-  datasets: [
-    {
-      label: "Sales",
-      data: [65, 59, 80, 81, 56],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.6)",
-        "rgba(54, 162, 235, 0.6)",
-        "rgba(255, 206, 86, 0.6)",
-        "rgba(75, 192, 192, 0.6)",
-        "rgba(153, 102, 255, 0.6)",
-      ],
-    },
-  ],
-};
+
+
+class ChartComponent extends PureComponent {
+  render() {
+    return (
+       <ResponsiveContainer width="100%" height={200}>
+        <BarChart data={this.props.data}>
+          <XAxis dataKey="name" />
+          <Tooltip />
+          <Bar dataKey="uv" fill="#3b82f6" />
+        </BarChart>
+      </ResponsiveContainer>
+    );
+  }
+}
+
+const pieData = [
+  { name: 'Group A', value: 400 },
+  { name: 'Group B', value: 300 },
+  { name: 'Group C', value: 300 },
+  { name: 'Group D', value: 200 },
+];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+class PieChartComponent extends PureComponent {
+  render() {
+    const { data } = this.props;
+    return (
+      <ResponsiveContainer width="100%" height={250}>
+        <PieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            innerRadius={70}
+            outerRadius={90}
+            paddingAngle={0}
+            dataKey="value"
+          >
+
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+         
+        </PieChart>
+      </ResponsiveContainer>
+    );
+  }
+}
 
 const options = {
   plugins: {
@@ -42,75 +78,107 @@ const options = {
     y: { beginAtZero: true },
   },
 };
-
-//donut
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-export const dondata = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
-
 const Overview = () => {
+    
+    const [stats, setStats] = useState({
+  month: 0,
+  verified: 0,
+  pending: 0,
+  rejected: 0,
+  locations: [],
+});
+
+      useEffect(() => {
+        const fetchStats = async () => {
+          try {
+           const response = await axios.get("http://localhost:5000/auth/overview");
+            setStats({
+              ...response.data,
+              locations: response.data.locations.map(loc => ({
+                name: loc._id,
+                value: loc.count,
+              }))
+            });
+          } catch (error) {
+            console.error("Error fetching stats:", error);
+          }
+        };
+         fetchStats();
+      }, []);
+      console.log(stats);
+      
+
+      const data = [
+  { name: "Verified", uv: stats.verified },
+  { name: "Pending", uv: stats.pending },
+  { name: "Rejected", uv: stats.rejected },
+];
+
   return (
-    <div >
-      <h1 className="mt-5 ms-10">Welcome, Admin name</h1>
+     <div className='flex p-10'>
+        
+        <div className='  rounded-lg p-'>
+      
+       <h1 className=' font-bold mb-7'>Welcome, </h1>
+       <div className='flex gap-8 ml-1' >
+        <div className='flex gap-5'>
+          <div className='bg-white p-3 rounded-lg w-56 h-28 shadow-md'>
+          <h1 className='flex justify-center items-center mb-4 gap-7 text-[18px] font-bold '><h2>This month</h2><FaCalendarAlt /></h1>
+          <h1 className='text-[30px] font-bold flex flex-col justify-center items-center'>{stats.month}</h1>
+          </div>
 
-      <div className="flex justify-center gap-20 text-center mt-7">
-        <div className="bg-slate-100 rounded-lg shadow-md p-1 h-28 w-32">
-          <p>This month</p><br />
-          <h1 className="text-2xl font-bold">3k</h1>
-        </div>
-        <div className="bg-slate-100 rounded-lg shadow-md p-1 h-28 w-32">
-          <p>Verified cases</p><br />
-          <h1 className="text-2xl font-bold">2.5k</h1>
-        </div>
-        <div className="bg-slate-100 rounded-lg shadow-md p-1 h-28 w-32">
-          <p>Pending</p><br />
-          <h1 className="text-2xl font-bold">200</h1>
-        </div>
-        <div className="bg-slate-100 rounded-lg shadow-md p-1 h-28 w-32">
-          <p>Rejected</p><br />
-          <h1 className="text-2xl font-bold">300</h1>
+          <div  className='bg-white p-3 rounded-lg w-56 h-28 shadow-md'>
+            <h1 className='flex justify-center items-center mb-4  gap-7 text-[18px] font-bold'><h2>Verified cases</h2><IoCheckmarkCircleOutline /></h1>
+            <h1 className='text-[30px] font-bold flex flex-col justify-center items-center'>{stats.verified}</h1>
+          </div>
         </div>
 
-      </div>
 
-      <div className="flex justify-between gap-24 mt-16 ms-10">
-        <div className="h-[400px] w-[400px] bg-slate-100 rounded-lg shadow-lg p-5">
-        <h2>Sales Data</h2>
-        <Bar data={data} options={options} />
+        <div className='flex gap-5'>
+            <div  className='bg-white p-3 rounded-lg w-56 h-28 shadow-md'>
+            <h1 className='flex justify-center items-center mb-4 text-[18px] font-bold gap-7'><h2>Pending</h2><LuClock /></h1>
+            <h1 className='text-[30px] font-bold flex flex-col justify-center items-center'>{stats.pending}</h1>
+          </div>
+
+           <div  className='bg-white p-3 rounded-lg w-56 h-28 shadow-md'>
+            <h1 className='flex justify-center items-center mb-4 text-[18px] font-bold gap-7'><h2>Rejected</h2><CgPlayListRemove /></h1>
+            <h1 className='text-[30px] font-bold flex flex-col justify-center items-center'>{stats.rejected}</h1>
+          </div>
+          
+        </div>
+       </div>
+
+      
+
+        <div className='flex justify-center items-center gap-9 mt-16'>
+        <div className='w-1/2 bg-white flex flex-col justify-center items-center rounded-lg p-4 h-96 shadow-md'> 
+        <h1 className='mb-4 text-[19px] font-bold '>Month Review</h1>
+          <ChartComponent data={data} />
+         <p><b className='text-[17px]'>30% Registerd</b> <span className='text-[14px]'>30% more complaits in this mouth</span></p> 
+         <button className='text-blue-600 bg-blue-200 w-56 rounded-md mt-4  h-9'>Deateails</button>
+         </div>
+
+       <div className='w-1/2 bg-white flex flex-col justify-center items-center rounded-lg p-4 h-96 shadow-md'> 
+          <h2 className='font-bold text-[18px] '>March 2025</h2>
+          <PieChartComponent data={stats.locations} />
+          <div className='flex gap-24 font-bold text-[15px]'>
+              {stats.locations.slice(0, 4).map((loc, idx) => (
+          <div key={idx}>
+          <h3>{loc.name}</h3>
+        </div>
+  ))}
+</div>
         </div>
       
 
-        <div className="h-[400px] w-[400px] bg-slate-100 rounded-lg shadow-lg p-5">
-        <Doughnut data={dondata} />
-        </div>
-      </div>
-  </div>
+       </div>
+
+      
+       </div>
+        
+    </div>
+
+
   )
 }
 

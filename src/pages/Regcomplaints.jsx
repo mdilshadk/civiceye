@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Regcomplaints = () => {
@@ -15,6 +16,7 @@ const Regcomplaints = () => {
 
   const regcomp=async(event)=>{
     event.preventDefault()
+    try{
     const formdata=new FormData()
     formdata.append('userId',id);
     formdata.append('description',data.description);
@@ -31,6 +33,11 @@ const Regcomplaints = () => {
     setdata(response.data)
     console.log(data);
     navigate('/guest')
+    toast.success('Complaint Registered successfully')
+  }
+  catch(error){
+      toast.error('Complaint Register failed')
+    }
     
   }
   const handlechange=(event)=>{
@@ -41,6 +48,8 @@ const Regcomplaints = () => {
   };
   return (
     <div >
+     <div><Toaster/></div>
+
       <form action="" onSubmit={regcomp}>
         <div className='w-[550px] ms-[450px] text-center'>
             <h1 className='text-2xl font-bold mt-10 mb-5'>Report Issues Seamlessly</h1>

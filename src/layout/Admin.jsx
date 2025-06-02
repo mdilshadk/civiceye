@@ -8,11 +8,7 @@ import Reports from './Reports'
 const Admin = () => {
 
   
-  
-  
-
-  
-  return (
+ return (
     <div className='flex gap-5'>
         <Sidebar></Sidebar>
         <div>

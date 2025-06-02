@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import img2 from './civic.png';
+import img2 from './comp.jpg';
 import img3 from './call.png'
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { VscReport } from "react-icons/vsc";
 import { FaTrophy } from "react-icons/fa";
-import { ImHammer2 } from "react-icons/im";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from 'react-responsive-carousel';
@@ -13,23 +12,77 @@ import { Carousel } from 'react-responsive-carousel';
 import { IoIosMail } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import Logednavi from './Logednavi';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const Guest = () => {
-  const[item,setitem]=useState(false)
-  useEffect(()=>{
+
+const [data, setData] = useState({ feed: "" });
+const[item,setitem]=useState(false)
+
+const [feedv, setfeedv] = useState([]);
+
+const id=localStorage.getItem("id")
+
+const feed = async (event) => {
+  event.preventDefault();
+  try {
+    let response = await axios.post(`http://localhost:5000/auth/feedback/${id}`, {
+  feed: feedv.feed,
+  userid: id
+  });
+    console.log(response.data);
+    toast.success('Feedback added Successfully');
+  setfeedv([...feedv, response.data]); 
+
+
+  } 
+  catch(error) {
+    toast.error('Feedback failed');   
+  }
+};
+console.log(data);
+
+const handlechange = (event) => {
+  setData({ ...data, [event.target.name]: event.target.value });
+};
+
+
+useEffect(()=>{
       const token=localStorage.getItem("token")
       setitem(!!token)
     },[])
+
   
+  useEffect(() => {
+  const feedbackview = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get("http://localhost:5000/auth/feedview", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setfeedv(response.data);
+    } catch (err) {
+      console.error("Error fetching feedback:", err);
+    }
+  };
+  console.log(feedbackview);
+  
+  
+  feedbackview();
+}, []);
+
   return (
     <div>
+      <div><Toaster/></div>
       <div>
         <Logednavi></Logednavi>
       </div>
         
         
       <div className='mt-4' >
-       <img src={img2} alt="" className='w-screen' />
+       <img src={img2} alt="" className='w-screen h-[350px]' />
        {!item?(
         <div className=' bg-black text-white text-4xl font-bold top-96 p-14 text-center' >
             <h1>Make Your Voice Heard!</h1>
@@ -39,19 +92,23 @@ const Guest = () => {
         </div>
       ):(
         <div className='text-center mt-20'>
-            <h1>register complaint</h1>
+            <h1 className='text-center mt-10 text-xl font-bold'>Register Complaint</h1>
             <div className='flex justify-center gap-10 mt-10'>
-              <Link to={'/regcomp'}><div className='h-44 w-44 bg-slate-50'>
-                <h2>waste dumping</h2>
+              <Link to={'/regcomp'}><div className='border  shadow-lg rounded-xl h-[150px] w-[200px] p-2'>
+                <h2 className='text-3xl mt-5'>🚮</h2>
+                <h2 className='font-bold'>waste dumping</h2>
               </div></Link>
-              <Link to={'/regcomp'}><div className='h-44 w-44 bg-slate-50'>
-                <h2>Public nuicense</h2>
+              <Link to={'/regcomp'}><div className='border  shadow-lg rounded-xl h-[150px] w-[200px] p-2'>
+                <h2 className='text-3xl mt-5'>🚓</h2>
+                <h2 className='font-bold'>Public nuicense</h2>
               </div></Link>
-              <Link to={'/regcomp'}><div className='h-44 w-44 bg-slate-50'>
-                <h2>Traffic violation</h2>
+              <Link to={'/regcomp'}><div className='border  shadow-lg rounded-xl h-[150px] w-[200px] p-2'>
+                <h2 className='text-3xl mt-5'>🚦</h2>
+                <h2 className='font-bold'>Traffic violation</h2>
               </div></Link>
-              <Link to={'/regcomp'}><div className='h-44 w-44 bg-slate-50'>
-                <h2>others</h2>
+              <Link to={'/regcomp'}><div className='border  shadow-lg rounded-xl h-[150px] w-[200px] p-2'>
+                <h2 className='text-3xl mt-5'>❓</h2>
+                <h2 className='font-bold'>others</h2>
               </div></Link>
             </div>
         </div>
@@ -63,23 +120,19 @@ const Guest = () => {
         <div className='border  shadow-2xl rounded-xl h-[150px] w-[200px] p-2'>
           <h1 className='ms-20 mb-5 font-bold'><FaRegCircleCheck /></h1>
           <h2>Complaints registeres</h2>
-          <h1>1002</h1>
+          <h1>10</h1>
         </div>
         <div className='border shadow-2xl rounded-xl h-[150px] w-[200px] p-3 '>
           <h1 className='ms-20 mb-5 font-bold'><VscReport /></h1>
           <h2>Reports filed</h2>
-          <h1>992</h1>
+          <h1>6</h1>
         </div>
         <div className='border shadow-2xl rounded-xl h-[150px] w-[200px] p-2 '>
           <h1 className='ms-20 mb-5 font-bold'><FaTrophy /></h1>
           <h2>Rewards distributed</h2>
-          <h1>886</h1>
+          <h1></h1>
         </div>
-        <div className='border shadow-xl rounded-xl h-[150px] w-[200px] p-2 '>
-          <h1 className='ms-20 mb-5 font-bold'><ImHammer2 /></h1>
-          <h2>Impact made</h2>
-          <h1>........</h1>
-        </div>
+        
       </div>
       
       <h1 className='text-center mt-10 text-xl font-bold'>What we do</h1>
@@ -100,41 +153,40 @@ const Guest = () => {
 
       <h1 className='text-center mt-10 text-xl font-bold'>What our users have to say</h1>
       <div>
-      <Carousel 
-        autoPlay 
-        infiniteLoop 
-        interval={3000} 
-        showThumbs={false}
-        showStatus={false}
-      >
-                <div>
-                  <div className='flex gap-20 ms-96 mt-10'>
-                    <div className='border-2 border-gray-500 w-64 p-6 rounded-xl'>
-                      <p>this is awesome website simplifires the complaint registartion process <br />-joimon</p>
-                    </div>
-                    <div className='border-2 border-gray-500 w-64 p-6 rounded-xl'>
-                      <p>this is awesome website simplifires the complaint registartion process <br />-franse</p>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                <div className='flex gap-20 ms-96 mt-10'>
-                    <div className='border-2 border-gray-500 w-64 p-6 rounded-xl'>
-                      <p>this is awesome website simplifires the complaint registartion process <br />-ansil</p>
-                    </div>
-                    <div className='border-2 border-gray-500 w-64 p-6 rounded-xl'>
-                      <p>this is awesome website simplifires the complaint registartion process <br />-john</p>
-                    </div>
-                  </div>
-                </div>
-                
-        </Carousel>
-          
-      </div>
+    <Carousel
+      autoPlay
+      infiniteLoop
+      interval={3000}
+      showThumbs={false}
+      showStatus={false}
+    >
+      {feedv.map((item, index) => (
+        <div key={index}>
+          <div className="flex gap-20 ms-96 mt-10">
+            <div className="border-2 border-gray-500 w-64 p-6 rounded-xl">
+              <p>{item.feed}</p>
+
+              <br />
+              <p>- {item.user?.name}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </Carousel>
+  </div>
+  {item&&(
       <div className='ms-[550px] mt-14  border-2 border-gray-600 h-44 w-96 p-3 rounded-xl'>
-              <input type="text" placeholder='Write your feedback'/>
-              <button className='bg-blue-600 text-white ms-72 mt-24 p-2 rounded-xl'>Submit</button>
-      </div>
+          <form action="" onSubmit={feed}>
+        <input
+          type="text"
+          placeholder="Write your feedback"
+          name="feed"
+          value={data.feed}
+          onChange={handlechange}
+        />
+              <button className='bg-blue-600 text-white ms-72 mt-24 p-2 rounded-xl' type='submit'>Submit</button>
+          </form>
+      </div>)}
       
       <div className='flex justify-center gap-20 mt-20'>
 

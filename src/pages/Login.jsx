@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import img1 from './civiceye.png'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast'
 
 const Login = () => {
   const [data,setdata]=useState({})
@@ -28,12 +29,13 @@ const Login = () => {
         navigate('/loged')
       }
     }
-    
+        toast.success('Loged in successfully')
+
       
   }
   catch(error){
     if (error.response && error.response.data.message) {
-      alert("error");
+      toast.error('Email or Password is incorrect')
       
     } 
   }
@@ -44,6 +46,8 @@ const Login = () => {
   }
   return (
     <div className='mt-36 ml-64 border border-gray-600 rounded-lg h-[500px] w-[950px] text-center'>
+       <div><Toaster/></div>
+
       <div className='flex gap-16 '>
         <div className='p-16'>
             <img src={img1} alt="" />

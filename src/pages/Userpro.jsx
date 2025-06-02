@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import img1 from './civiceye.png'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const Userpro = () => {
@@ -30,14 +31,18 @@ const Userpro = () => {
       let ed=await axios.put(`http://localhost:5000/auth/editp/${id}`,data)
       setdata(ed.data)
       viewprofile()
-      navigate('/guest')
+      navigate('/guest')  
+      toast.success('Edited successfully')
+
+
     }
     const handlechange=(event)=>{
       setdata({...data,[event.target.name]:event.target.value})
     }
   return (
     <div className='mt-36 ml-64 border border-gray-600 rounded-lg h-[500px] w-[950px] text-center'>
-    
+                <div><Toaster/></div>
+
     <form action="" onSubmit={editp}>
     <div className='flex gap-16 '>
       {/* b1 */}

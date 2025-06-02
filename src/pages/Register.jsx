@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import img1 from './civiceye.png'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast'
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
+
 
 const Register = () => {
   const[data,setdata]=useState({})
@@ -13,13 +12,16 @@ const Register = () => {
 
   const regi=async(event)=>{
     event.preventDefault()
+    try{
     let response=await axios.post("http://localhost:5000/auth/register",{...data,usertype:"user"});
     setdata(response.data)
     console.log(response.data);
-    toast.success("Registration successful!");
-
+    toast.success('Registered successfully')
     navigate("/loged")
-    
+    }
+    catch(error){
+      toast.error('Register failed')
+    }
   }
   const handlechange = (event) => {
     setdata({...data, [event.target.name]: event.target.value });
@@ -27,7 +29,8 @@ const Register = () => {
 
   return (
      <div className='mt-36 ml-64 border border-gray-600 rounded-lg h-[500px] w-[950px] text-center'>
-      <ToastContainer />
+            <div><Toaster/></div>
+
           <div className='flex gap-16 '>
             <div className='p-16'>
                 <img src={img1} alt="" />
