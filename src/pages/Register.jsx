@@ -13,7 +13,7 @@ const Register = () => {
   const regi=async(event)=>{
     event.preventDefault()
     try{
-    let response=await axios.post("http://localhost:5000/auth/register",{...data,usertype:"user"});
+    let response=await axios.post("https://civiceye-1-d7k7.onrender.com/auth/register",{...data,usertype:"user"});
     setdata(response.data)
     console.log(response.data);
     toast.success('Registered successfully')

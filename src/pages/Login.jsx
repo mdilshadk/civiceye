@@ -12,7 +12,7 @@ const Login = () => {
   const logi=async(event)=>{
     event.preventDefault();
   try{
-    let response=await axios.post("http://localhost:5000/auth/login",data);
+    let response=await axios.post("https://civiceye-1-d7k7.onrender.com/auth/login",data);
 
     if (response.status===201) {
       localStorage.setItem("id", response.data._id);
