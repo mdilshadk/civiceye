@@ -5,6 +5,8 @@ import Overview from './Overview'
 import Complaints from './Complaints'
 import Userman from './Userman'
 import Reports from './Reports'
+import About from '../pages/About'
+import Contact from '../pages/Contact'
 const Admin = () => {
 
   
@@ -17,6 +19,8 @@ const Admin = () => {
             <Route path='/complaints' element={<Complaints></Complaints>} ></Route>
             <Route path='/userman' element={<Userman></Userman>} ></Route>
             <Route path='/reports' element={<Reports></Reports>} ></Route>
+            <Route path='/about' element={<About></About>} ></Route>
+            <Route path='/contact' element={<Contact></Contact>} ></Route>
 
 
         </Routes>

@@ -37,8 +37,8 @@ const logout=()=>{
               <Link to={'/loged/mycomplaints'}><h2>My Complaints</h2></Link>
 
             )}
-            <h2>About</h2>
-            <h2>Contact</h2>
+            <Link to={'/about'}><h2>About</h2></Link>
+            <Link to={'/contact'}><h2>Contact</h2></Link>
             </div>
 
             {!item?(

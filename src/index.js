@@ -12,6 +12,8 @@ import Sidebar from './pages/Sidebar';
 import Admin from './layout/Admin';
 import Regcomplaints from './pages/Regcomplaints';
 import Logedhome from './pages/Logedhome';
+import About from './pages/About';
+import Contact from './pages/Contact';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,12 +24,15 @@ root.render(
           <Route path='/login' element={<Login></Login>} ></Route>
           <Route path='/register' element={<Register></Register>} ></Route>
           <Route path='/profile' element={<Userpro></Userpro>} ></Route>
-          <Route path='/guest' element={<Guest></Guest>} ></Route>
+          <Route path='/' element={<Guest></Guest>} ></Route>
           <Route path='/home' element={<Home></Home>} ></Route>
           <Route path='/sidebar' element={<Sidebar></Sidebar>} ></Route>
           <Route path='/admin/*' element={<Admin></Admin>} ></Route>
           <Route path='/regcomp' element={<Regcomplaints></Regcomplaints>} ></Route>
           <Route path='/loged/*' element={<Logedhome></Logedhome>} ></Route>
+          <Route path='/about' element={<About></About>} ></Route>
+          <Route path='/contact' element={<Contact></Contact>} ></Route>
+
 
 
 
