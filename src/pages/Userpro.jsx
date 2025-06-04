@@ -31,7 +31,7 @@ const Userpro = () => {
       let ed=await axios.put(`https://civiceye-1-d7k7.onrender.com/auth/editp/${id}`,data)
       setdata(ed.data)
       viewprofile()
-      navigate('/guest')  
+      navigate('/')  
       toast.success('Edited successfully')
 
 
@@ -114,7 +114,7 @@ const Userpro = () => {
     
 
         <div>
-            <Link to={'/guest'}><button className='text-white p-1 w-16 rounded-md bg-blue-500' >Back</button></Link>
+            <Link to={'/'}><button className='text-white p-1 w-16 rounded-md bg-blue-500' >Back</button></Link>
             <button className=' ms-5 p-1 text-white w-16 rounded-md bg-blue-500' type='submit' >Submit</button>
          </div>
     </form>

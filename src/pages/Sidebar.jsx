@@ -16,7 +16,7 @@ const Sidebar = () => {
     localStorage.removeItem("id")
     localStorage.removeItem("token")
     setitem(false);
-    navigate('/guest')
+    navigate('/')
   }
     
 

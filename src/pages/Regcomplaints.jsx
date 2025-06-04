@@ -32,7 +32,7 @@ const Regcomplaints = () => {
     })
     setdata(response.data)
     console.log(data);
-    navigate('/guest')
+    navigate('/')
     toast.success('Complaint Registered successfully')
   }
   catch(error){
@@ -80,7 +80,7 @@ const Regcomplaints = () => {
             </div>
             <div className='flex justify-center gap-10 mt-5'>
               <button className='bg-blue-500 p-2 w-48 rounded-xl' type='submit'>Submit</button>
-              <Link to={'/guest'}><button className='bg-blue-500 p-2 w-48 rounded-xl'>Cancel</button></Link>
+              <Link to={'/'}><button className='bg-blue-500 p-2 w-48 rounded-xl'>Cancel</button></Link>
             </div>
             
         </div>

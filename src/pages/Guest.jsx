@@ -100,14 +100,14 @@ useEffect(()=>{
         </Carousel>
         </div>
        {!item?(
-        <div className=' bg-black text-white text-4xl font-bold mt-80 p-14 text-center' >
+        <div className=' bg-black text-white text-4xl font-bold mt-96 p-14 text-center' >
             <h1>Make Your Voice Heard!</h1>
             <h1>Report Problems, Help Your City, and</h1>
             <h1>Earn Rewards!</h1>
            <Link to={'/register'}> <button className='bg-blue-500 text-sm p-2 w-44 rounded-lg'>Sign up</button></Link>
         </div>
       ):(
-        <div className='text-center mt-20'>
+        <div className='text-center mt-96'>
             <h1 className='text-center mt-10 text-xl font-bold'>Register Complaint</h1>
             <div className='flex justify-center gap-10 mt-10'>
               <Link to={'/regcomp'}><div className='border  shadow-lg rounded-xl h-[150px] w-[200px] p-2'>
