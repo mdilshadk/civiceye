@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import tr from './traffic.jpg'
-import wa from './waste.jpg'
-import pu from './public.jpg'
+import tr from './traffic1.jpg'
+import wa from './waste1.jpg'
+import pu from './public1.jpg'
 import img3 from './call.png'
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { VscReport } from "react-icons/vsc";
