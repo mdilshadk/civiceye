@@ -7,7 +7,7 @@ const Reports = () => {
   
   const token=localStorage.getItem("token")
   const feedbackview=async()=>{
-        let response=await axios.get("http://localhost:5000/auth/feedview",{
+        let response=await axios.get("https://civiceye-1-d7k7.onrender.com/auth/feedview",{
             headers:{Authorization:`Bearer ${token}`}
         })
         setdata(response.data)

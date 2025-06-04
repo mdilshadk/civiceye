@@ -12,7 +12,7 @@ const Complaints = () => {
 
     
     const adminview=async()=>{
-        let response=await axios.get("http://localhost:5000/auth/admincomp",{
+        let response=await axios.get("https://civiceye-1-d7k7.onrender.com/auth/admincomp",{
             headers:{Authorization:`Bearer ${token}`}
         })
         setdata(response.data)
@@ -25,7 +25,7 @@ const Complaints = () => {
 
     const handlesubmit=async(complaintId,status)=>{
 
-        let response=await axios.put(`http://localhost:5000/auth/resolve/${complaintId}`,{status}, {
+        let response=await axios.put(`https://civiceye-1-d7k7.onrender.com/auth/resolve/${complaintId}`,{status}, {
         headers: { Authorization: `Bearer ${token}` }
         });
         setresolve(response.resolv)
@@ -80,7 +80,7 @@ const Complaints = () => {
                     {item.complaint.complainttype}
                 </td>
                 <td class="px-6 py-4">
-                  <img src={`http://localhost:5000/uploads/${item.complaint.proof}`} alt="" className='h-20 w-15 rounded-md' />
+                  <img src={`https://civiceye-1-d7k7.onrender.com/uploads/${item.complaint.proof}`} alt="" className='h-20 w-15 rounded-md' />
                 </td>
                 <td class="px-6 py-4">
                     {item.complaint.status}

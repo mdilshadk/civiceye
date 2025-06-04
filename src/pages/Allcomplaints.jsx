@@ -9,7 +9,7 @@ const Allcomplaints = () => {
   const token=localStorage.getItem("token")
 
   const viewcomplaint=async()=>{
-    let response=await axios.get(`http://localhost:5000/auth/viewcomp/${id}`,{
+    let response=await axios.get(`https://civiceye-1-d7k7.onrender.com/auth/viewcomp/${id}`,{
       headers:{Authorization:`Bearer ${token}`}
     })
     setdata(response.data)
@@ -59,7 +59,7 @@ const Allcomplaints = () => {
                     {item.location}
                 </td>
                 <td class="px-6 py-4">
-                  <img src={`http://localhost:5000/uploads/${item.proof}`} alt="" className='h-20 w-15 rounded-md' />
+                  <img src={`https://civiceye-1-d7k7.onrender.com/uploads/${item.proof}`} alt="" className='h-20 w-15 rounded-md' />
 
                 </td>
                 <td class="px-6 py-4">

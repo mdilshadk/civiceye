@@ -14,7 +14,7 @@ const Userpro = () => {
     const token=localStorage.getItem("token")
   
     const viewprofile=async()=>{
-      let response=await axios.get(`http://localhost:5000/auth/profilev/${id}`,{
+      let response=await axios.get(`https://civiceye-1-d7k7.onrender.com/auth/profilev/${id}`,{
         headers:{Authorization:`Bearer ${token}`}
       })
       setdata(response.data)
@@ -28,7 +28,7 @@ const Userpro = () => {
     const editp=async(event)=>{
       event.preventDefault()
 
-      let ed=await axios.put(`http://localhost:5000/auth/editp/${id}`,data)
+      let ed=await axios.put(`https://civiceye-1-d7k7.onrender.com/auth/editp/${id}`,data)
       setdata(ed.data)
       viewprofile()
       navigate('/guest')  

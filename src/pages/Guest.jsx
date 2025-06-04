@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import img2 from './comp.jpg';
+import tr from './traffic.jpg'
+import wa from './waste.jpg'
+import pu from './public.jpg'
 import img3 from './call.png'
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { VscReport } from "react-icons/vsc";
@@ -28,7 +30,7 @@ const id=localStorage.getItem("id")
 const feed = async (event) => {
   event.preventDefault();
   try {
-    let response = await axios.post(`http://localhost:5000/auth/feedback/${id}`, {
+    let response = await axios.post(`https://civiceye-1-d7k7.onrender.com/auth/feedback/${id}`, {
   feed: feedv.feed,
   userid: id
   });
@@ -59,7 +61,7 @@ useEffect(()=>{
   const feedbackview = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get("http://localhost:5000/auth/feedview", {
+      const response = await axios.get("https://civiceye-1-d7k7.onrender.com/auth/feedview", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setfeedv(response.data);
@@ -82,9 +84,23 @@ useEffect(()=>{
         
         
       <div className='mt-4' >
-       <img src={img2} alt="" className='w-screen h-[350px]' />
+        <div>
+      <Carousel className='h-6 ' autoPlay={true} showThumbs={false} showStatus={false} infiniteLoop={true} interval={2500}>
+          <div id='top'>
+            <img src={tr} className='h-[350px] '  />
+          </div>
+          <div>
+            <img src={wa} className='h-[350px]'/>
+        
+          </div>
+          <div>
+            <img src={pu} className='h-[350px]'/>
+          </div>
+          
+        </Carousel>
+        </div>
        {!item?(
-        <div className=' bg-black text-white text-4xl font-bold top-96 p-14 text-center' >
+        <div className=' bg-black text-white text-4xl font-bold mt-80 p-14 text-center' >
             <h1>Make Your Voice Heard!</h1>
             <h1>Report Problems, Help Your City, and</h1>
             <h1>Earn Rewards!</h1>

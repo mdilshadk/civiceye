@@ -7,7 +7,7 @@ const Userman = () => {
       
       
     const users=async()=>{
-        let response=await axios.get("http://localhost:5000/auth/users",data)
+        let response=await axios.get("https://civiceye-1-d7k7.onrender.com/auth/users",data)
           setdata(response.data)
         }
         console.log(data);

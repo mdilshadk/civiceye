@@ -91,7 +91,7 @@ const Overview = () => {
       useEffect(() => {
         const fetchStats = async () => {
           try {
-           const response = await axios.get("http://localhost:5000/auth/overview");
+           const response = await axios.get("https://civiceye-1-d7k7.onrender.com/auth/overview");
             setStats({
               ...response.data,
               locations: response.data.locations.map(loc => ({

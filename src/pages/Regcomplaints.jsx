@@ -24,7 +24,7 @@ const Regcomplaints = () => {
     formdata.append('location',data.location)
     formdata.append('proof',data.proof)
 
-    let response=await axios.post("http://localhost:5000/auth/complaints",formdata,{
+    let response=await axios.post("https://civiceye-1-d7k7.onrender.com/auth/complaints",formdata,{
       headers:{
         "Content-Type":"multipart/form-data"
 
