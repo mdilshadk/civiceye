@@ -34,7 +34,6 @@ const feed = async (event) => {
   feed: feedv.feed,
   userid: id
   });
-    console.log(response.data);
     toast.success('Feedback added Successfully');
   setfeedv([...feedv, response.data]); 
 
@@ -64,12 +63,13 @@ useEffect(()=>{
       const response = await axios.get("https://civiceye-1-d7k7.onrender.com/auth/feedview", {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log(response.data);
+      
       setfeedv(response.data);
     } catch (err) {
       console.error("Error fetching feedback:", err);
     }
   };
-  console.log(feedbackview);
   
   
   feedbackview();
@@ -87,27 +87,28 @@ useEffect(()=>{
         <div>
       <Carousel className='h-6 ' autoPlay={true} showThumbs={false} showStatus={false} infiniteLoop={true} interval={2500}>
           <div id='top'>
-            <img src={tr} className='h-[350px] '  />
+            <img src={tr} alt='' className='w-full h-[200px] md:h-[350px] object-cover'  />
           </div>
           <div>
-            <img src={wa} className='h-[350px]'/>
+            <img src={wa} alt='' className='w-full h-[200px] md:h-[350px] object-cover'/>
         
-          </div>
+          </div> 
           <div>
-            <img src={pu} className='h-[350px]'/>
+            <img src={pu} alt='' className='w-full h-[200px] md:h-[350px] object-cover'/>
           </div>
           
         </Carousel>
         </div>
+      </div>
        {!item?(
-        <div className=' bg-black text-white text-4xl font-bold mt-96 p-14 text-center' >
+        <div className=' bg-black text-white text-4xl font-bold mt-80 p-14 text-center' >
             <h1>Make Your Voice Heard!</h1>
             <h1>Report Problems, Help Your City, and</h1>
             <h1>Earn Rewards!</h1>
            <Link to={'/register'}> <button className='bg-blue-500 text-sm p-2 w-44 rounded-lg'>Sign up</button></Link>
         </div>
       ):(
-        <div className='text-center mt-96'>
+        <div className='text-center mt-80'>
             <h1 className='text-center mt-10 text-xl font-bold'>Register Complaint</h1>
             <div className='flex justify-center gap-10 mt-10'>
               <Link to={'/regcomp'}><div className='border  shadow-lg rounded-xl h-[150px] w-[200px] p-2'>
@@ -129,14 +130,14 @@ useEffect(()=>{
             </div>
         </div>
       )}
-      </div>
+      
       <h1 className='text-center mt-10 text-xl font-bold'>Complaint Reports</h1>
       <div className='flex justify-evenly text-center mt-14 text-xl font-bold p-6'>
         
         <div className='border  shadow-2xl rounded-xl h-[150px] w-[200px] p-2'>
           <h1 className='ms-20 mb-5 font-bold'><FaRegCircleCheck /></h1>
           <h2>Complaints registeres</h2>
-          <h1>10</h1>
+          <h1></h1>
         </div>
         <div className='border shadow-2xl rounded-xl h-[150px] w-[200px] p-3 '>
           <h1 className='ms-20 mb-5 font-bold'><VscReport /></h1>
@@ -146,7 +147,7 @@ useEffect(()=>{
         <div className='border shadow-2xl rounded-xl h-[150px] w-[200px] p-2 '>
           <h1 className='ms-20 mb-5 font-bold'><FaTrophy /></h1>
           <h2>Rewards distributed</h2>
-          <h1></h1>
+          <h1>...</h1>
         </div>
         
       </div>
@@ -180,7 +181,7 @@ useEffect(()=>{
         <div key={index}>
           <div className="flex gap-20 ms-96 mt-10">
             <div className="border-2 border-gray-500 w-64 p-6 rounded-xl">
-              <p>{item.feed}</p>
+              <p>{item.feedbacks.feed}</p>
 
               <br />
               <p>- {item.user?.name}</p>

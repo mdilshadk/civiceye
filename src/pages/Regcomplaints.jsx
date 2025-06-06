@@ -61,10 +61,16 @@ const Regcomplaints = () => {
                 onChange={handlechange}
                 name='description' /><br /><br />
             <label htmlFor="">Complaint type</label><br />
-              <input type="text" 
-                className='w-full p-2 border border-gray-500 rounded-lg shadow-md' 
-                onChange={handlechange}
-                name='complainttype'/><br /><br />
+             <select name="complainttype" id="" 
+              onChange={handlechange}
+               className='w-full p-2 border border-gray-500 rounded-lg shadow-md'
+               >
+                <option value="">waste dumping</option>
+                <option value="">traffic violation</option>
+                <option value="">public nuicence</option>
+                <option value="">others</option>
+             </select>
+             <br /><br />
             <label htmlFor="">Location</label><br />
               <input type="text" 
                 className='w-full p-2 border border-gray-500 rounded-lg shadow-md' 

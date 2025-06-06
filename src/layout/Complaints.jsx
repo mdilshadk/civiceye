@@ -15,7 +15,7 @@ const Complaints = () => {
         let response=await axios.get("https://civiceye-1-d7k7.onrender.com/auth/admincomp",{
             headers:{Authorization:`Bearer ${token}`}
         })
-        setdata(response.data)
+        setdata(response.data.reverse())
     }
     console.log(data);
     
