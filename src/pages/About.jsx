@@ -1,7 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
+    <div>
+      <Link to={'/'}><button className='h-10 w-28 bg-blue-500 text-white rounded-md ms-5 mt-2'>Back</button></Link>
+      
     <div className='mt-36 ml-64 border border-gray-600 rounded-lg h-auto w-[950px] p-8 text-left bg-white shadow-lg'>
       <h1 className='text-3xl font-bold mb-4 text-center text-blue-700'>About Civic Eye</h1>
 
@@ -28,6 +32,7 @@ const About = () => {
       <p className='text-gray-800'>
         To foster active citizen participation in civic governance by offering a transparent, efficient, and accessible platform for reporting and resolving community issues.
       </p>
+    </div>
     </div>
   );
 }
