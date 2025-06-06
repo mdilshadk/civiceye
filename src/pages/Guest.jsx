@@ -137,7 +137,7 @@ useEffect(()=>{
         <div className='border  shadow-2xl rounded-xl h-[150px] w-[200px] p-2'>
           <h1 className='ms-20 mb-5 font-bold'><FaRegCircleCheck /></h1>
           <h2>Complaints registeres</h2>
-          <h1></h1>
+          <h1>10</h1>
         </div>
         <div className='border shadow-2xl rounded-xl h-[150px] w-[200px] p-3 '>
           <h1 className='ms-20 mb-5 font-bold'><VscReport /></h1>
